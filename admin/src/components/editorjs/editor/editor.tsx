@@ -2,10 +2,9 @@ import React, { SetStateAction, useCallback, useRef, useState } from "react"
 import { EDITOR_JS_TOOLS, CUSTOM_IMAGE_TOOL } from "./editor_tools"
 import { createReactEditorJS } from "react-editor-js"
 import { MediaLibrary, MediaLibraryAdapter } from "./media_lib"
+import SkillInlineTool from "./skill_inlne_tool"
 
 const ReactEditorJS = createReactEditorJS()
-
-// console.log(tools)
 
 interface EditorProps {
   onChange: Function
@@ -62,10 +61,15 @@ const Editor = (props: EditorProps) => {
   const tools = {
     ...EDITOR_JS_TOOLS,
     // ...CUSTOM_IMAGE_TOOL,
-    ...IMAGE_ADAPTER_TOOL
+    ...IMAGE_ADAPTER_TOOL,
+    ...{
+      skillSelection: {
+        class: SkillInlineTool
+      }
+    }
   }
 
-  
+
 
   const parsedValue = value && value.length > 0 ? JSON.parse(value) : {}
 
@@ -78,7 +82,7 @@ const Editor = (props: EditorProps) => {
     }}>
       <ReactEditorJS
         // instanceRef={handleInitialize}
-        data={parsedValue}
+        defaultValue={parsedValue}
         // onReady     ={(api: any) => {
         //   console.log(JSON.parse(value).blocks.length)
         //   if (value && JSON.parse(value).blocks.length) {
